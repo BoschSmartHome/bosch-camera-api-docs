@@ -1,0 +1,1879 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Bosch Smart Home 2nd gen Camera API",
+    "description": "This description focuses on the JSON-based, REST-like API for the Eyes Cameras.\n                \nBy using this documentation, the developer accepts and agrees to be bound by our [Terms and Conditions](https://github.com/BoschSmartHome/bosch-camera-api-docs#terms-and-conditions).\n    \nThis documentation is subject to the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).\n    \nPlease report any issues you encounter with this documentation in our [GitHub tracker](https://github.com/BoschSmartHome/bosch-camera-api-docs/issues).\n  ",
+  "contact": {
+      "name": "Bosch Smart Home Lollar",
+      "email": "HOME-Team-Lollar@bosch.com",
+      "url": "https://www.bosch-smarthome.com/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://{camera_host}/sh",
+      "description": "Camera REST Server",
+      "variables": {
+        "camera_host": {
+          "default": "192.168.0.100",
+          "description": "The IP Address of your camera in your network"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "SHC Pairing",
+      "description": "Pairing the camera with a SHC. Integrating the camera into the Bosch Smart Home system."
+    },
+    {
+      "name": "Alarm",
+      "description": "Camera alarm states"
+    },
+    {
+      "name": "Control",
+      "description": "Other camera states"
+    },
+    {
+      "name": "Information",
+      "description": "Provides information about the camera's state"
+    },
+    {
+      "name": "Virtual Alarm",
+      "description": "Virtual Alarm Zones and configuration"
+    },
+    {
+      "name": "Audio",
+      "description": "Camera audio features"
+    },
+    {
+      "name": "Lighting",
+      "description": "Camera lighting features"
+    },
+    {
+      "name": "Icon LED Brightness",
+      "description": "Camera Icon LED brightness"
+    },
+    {
+      "name": "Video",
+      "description": "Camera video features"
+    }
+  ],
+  "paths": {
+    "/data/sh-controller/paired": {
+      "get": {
+        "summary": "Get pairing information to smart home system",
+        "description": "Retrieves Smart Home system pairing information. States whether the camera is paired with a Smart Home system or not.",
+        "operationId": "getShSystemPaired",
+        "tags": [
+          "SHC Pairing"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Smart Home system pairing information response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemPairingInformation"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/privacyState": {
+      "get": {
+        "summary": "Get privacy state",
+        "description": "Returns the camera's current privacy mode state.",
+        "operationId": "getPrivacyState",
+        "tags": [
+          "Privacy"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful privacy mode state response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyState"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/privacyMode": {
+      "get": {
+        "summary": "Get privacy mode",
+        "description": "Retrieves the camera's current privacy mode status.",
+        "operationId": "getPrivacyMode",
+        "tags": [
+          "Privacy"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful privacy mode response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyMode"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/privacyMode/jingle": {
+      "get": {
+        "summary": "[Indoor] Get privacy jingle mode",
+        "description": "Retrieves the camera's current config privacy mode jingle status. Enabled by default for Eyes Indoor, disabled for Eyes Outdoor",
+        "operationId": "getPrivacyModeJingle",
+        "tags": [
+          "Privacy",
+          "Audio"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful privacy mode jingle response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyModeJingleConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "Get ping response",
+        "description": "Returns a valid response, when the camera's REST server has been started.",
+        "operationId": "getPing",
+        "tags": [
+          "Information"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful ping response."
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/version": {
+      "get": {
+        "summary": "Get camera firmware version",
+        "description": "Retrieves the current firmware version of the camera.",
+        "operationId": "getFirmwareVersion",
+        "tags": [
+          "Information"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful firmware version response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FirmwareVersion"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem/action/acousticAlarm": {
+      "get": {
+        "summary": "Get acoustic intrusion alarm",
+        "description": "Retrieves the camera's current acoustic intrusion alarm state.",
+        "operationId": "getAcousticIntrusionAlarm",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful acoustic intrusion alarm response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcousticAlarmState"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem/action/visualAlarm": {
+      "get": {
+        "summary": "Get visual intrusion alarm",
+        "description": "Retrieves the camera's current visual intrusion alarm state.",
+        "operationId": "getVisualIntrusionAlarm",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful visual intrusion alarm response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VisualAlarmState"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem": {
+      "get": {
+        "summary": "Get intrusion system configuration",
+        "description": "Get the camera's current intrusion system configuration.",
+        "operationId": "getIntrusionSystem",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful intrusion system configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntrusionSystemConfiguration"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem/arming": {
+      "get": {
+        "summary": "Get intrusion system arming status",
+        "description": "Get the intrusion system arming state.",
+        "operationId": "getIntrusionSystemArming",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully fetched intrusion system arming state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntrusionSystemArming"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem/action/alarmReminder": {
+      "get": {
+        "summary": "Get intrusion system reminder configuration",
+        "description": "Get the camera's current intrusion system reminder configuration.",
+        "operationId": "getIntrusionAlarmReminderConfigurationState",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful intrusion system reminder configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntrusionSystemPreAlarmConfiguration"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/alarm/config": {
+      "get": {
+        "summary": "Get alarm configuration",
+        "description": "Retrieves the camera's current alarm configuration.",
+        "operationId": "getAlarmConfig",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful alarm configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlarmConfiguration"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/alarm/status": {
+      "get": {
+        "summary": "Get alarm status",
+        "description": "Retrieves details about the camera's alarm status and related features.",
+        "operationId": "getAlarmStatus",
+        "tags": [
+          "Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlarmStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/virtualAlarmZones": {
+      "get": {
+        "summary": "Get virtual alarm zone configuration",
+        "description": "Retrieves the virtual alarm zones defined for the camera.",
+        "operationId": "getVirtualAlarmZones",
+        "tags": [
+          "Virtual Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Virtual alarm zone configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "zones": {
+                      "type": "array",
+                      "description": "All existing virtual alarm zones",
+                      "items": {
+                        "$ref": "#/components/schemas/VirtualAlarmZone"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/intrusionSystem/config": {
+      "get": {
+        "summary": "Get intrusion detection configuration",
+        "description": "Retrieves parameters that influence the behaviour of the intrusion detection.",
+        "operationId": "getIntrusionDetectionConfig",
+        "tags": [
+          "Virtual Alarm"
+        ],
+        "responses": {
+          "200": {
+            "description": "Intrusion detection configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntrusionDetectionConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/calibration/extrinsic": {
+      "get": {
+        "summary": "Get extrinsic calibration parameter of the camera",
+        "description": "Retrieves extrinsic calibration parameter of the camera.",
+        "operationId": "getExtrinsicCalibration",
+        "tags": [
+          "Calibration"
+        ],
+        "responses": {
+          "200": {
+            "description": "Extrinsic calibration configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Extrinsic calibration configuration.",
+                  "properties": {
+                    "elevation": {
+                      "type": "number",
+                      "format": "float64",
+                      "description": "The elevation of the lens center, i.e., height over ground in meter.",
+                      "minimum": 0.0,
+                      "maximum": 10.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/alarm/audioDetection/config": {
+      "get": {
+        "summary": "Get audio detection configuration",
+        "description": "Retrieves parameters that influence the behaviour of audio detection.",
+        "operationId": "getAudioDetectionConfig",
+        "tags": [
+          "Audio"
+        ],
+        "responses": {
+          "200": {
+            "description": "Audio detection configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioDetectionConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/audio/volumeLevel": {
+      "get": {
+        "summary": "Get speaker volume level",
+        "description": "Retrieves the current speaker volume level.",
+        "operationId": "getSpeakerLevel",
+        "tags": [
+          "Audio"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful speaker volume level response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VolumeLevel"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/audio/currentNoise": {
+      "get": {
+        "summary": "Get current sound level",
+        "description": "Retrieves the current sound/noise level.",
+        "operationId": "getCurrentNoiseLevel",
+        "tags": [
+          "Audio"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful current sound level response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoiseLevel"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/statusLed": {
+      "get": {
+        "summary": "Get streaming indicator configuration",
+        "description": "Retrieves the camera's current Streaming indicator configuration. When enabled, camera's status LED will flash while the camera is streaming video.",
+        "operationId": "getStreamingIndicatorConfig",
+        "tags": [
+          "Video"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful streaming indicator configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingIndicatorConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/iconLed/brightness": {
+      "get": {
+        "summary": "Get Icon LED brightness configuration",
+        "description": "Retrieves the camera's current Icon LED configuration.",
+        "operationId": "getIconLedBrightnessConfig",
+        "tags": [
+          "Icon LED Brightness"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful icon led brightness configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IconLedBrightnessConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/level": {
+      "get": {
+        "summary": "[Outdoor] Get the current lighting level",
+        "description": "Retrieves the camera's current lighting level.",
+        "operationId": "getLightingLevel",
+        "tags": [
+          "Lighting"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "The current normalized lighting level of the camera.",
+                    "properties": {
+                      "level": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Normalized lighting level.",
+                          "minimum": 0.0,
+                          "maximum": 1.0,
+                          "example": 0.3
+                      }
+                    }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/manual": {
+      "get": {
+        "summary": "[Outdoor] Get manual light configuration",
+        "description": "Retrieves the camera's current manual light configuration.",
+        "operationId": "getManualLightConfig",
+        "tags": [
+          "Lighting"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful manual light configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualLightConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/motion": {
+      "get": {
+        "summary": "[Outdoor] Get motion light configuration",
+        "description": "Retrieves the camera's current motion light configuration.",
+        "operationId": "getMotionLightConfig",
+        "tags": [
+          "Lighting"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful motion light configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotionLightConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/ambient": {
+      "get": {
+        "summary": "[Outdoor] Get ambient light configuration",
+        "description": "Retrieves the camera's current ambient light configuration.",
+        "operationId": "getAmbientLightConfig",
+        "tags": [
+          "Lighting"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful ambient light configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmbientLightConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/lighting/config": {
+      "get": {
+        "summary": "[Outdoor] Get general lighting configuration",
+        "description": "Retrieves the camera's current general lighting configuration.",
+        "operationId": "getGeneralLightingConfig",
+        "tags": [
+          "Lighting"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful general lighting configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralLightingConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/recording/audioRecording": {
+      "get": {
+        "summary": "Get audio recording setting",
+        "description": "Retrieves the current audio recording setting.",
+        "operationId": "getRecordingAudioRecording",
+        "tags": [
+          "Video"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AudioRecordingConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/recording/clipLength": {
+      "get": {
+        "summary": "Get clip length",
+        "description": "Retrieves the current clip recording length.",
+        "operationId": "getRecordingClipLength",
+        "tags": [
+          "Video"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful clip recording response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClipRecordingLength"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/video/privacyMaskConfig": {
+      "get": {
+        "summary": "Get privacy mask overlay configuration",
+        "description": "Retrieves privacy mask overlay configuration.",
+        "operationId": "getPrivacyMaskConfig",
+        "tags": [
+          "Video"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful privacy mask configuration response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyMaskConfig"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/wifiInfo": {
+      "get": {
+        "summary": "Get information about the wifi connection",
+        "description": "Reads out wifi station and connection information (Signal strength, SSID, RegionCode)",
+        "operationId": "getWifiInformation",
+        "tags": [
+          "Wifi"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Wifi information response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WifiInformation"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/DeactivatedWhenNotCommissioned"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    },
+    "/data/localUser": {
+      "get": {
+        "summary": "Get local user name",
+        "description": "Returns the configured local user name. Returns 404 if no local user is configured. Also returns 404 when the camera is not commissioned, as local user functionality is only available in commissioned state.",
+        "operationId": "getLocalUserName",
+        "tags": [
+          "Control"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned local user name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocalUserName"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No local user or cam is not commissioned."
+          },
+          "default": {
+            "description": "unexpected error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SystemPairingInformation": {
+        "type": "object",
+        "description": "System pairing information.",
+        "required": [
+          "paired"
+        ],
+        "properties": {
+          "paired": {
+            "type": "boolean",
+            "description": "Whether the camera is paired with a Smart Home system or not.",
+            "example": true
+          }
+        }
+      },
+      "FirmwareVersion": {
+        "type": "object",
+        "description": "Camera firmware version.",
+        "required": [
+          "firmware_version"
+        ],
+        "properties": {
+          "firmware_version": {
+            "type": "string",
+            "description": "The current firmware version of the camera.",
+            "example": "1.2.3"
+          }
+        }
+      },
+      "VolumeLevel": {
+        "type": "object",
+        "description": "Speaker volume level.",
+        "required": [
+          "volume_level"
+        ],
+        "properties": {
+          "volume_level": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Volume level. Returns -1 if no mapping fails.",
+            "enum": [
+              -1,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "example": 2
+          }
+        }
+      },
+      "NoiseLevel": {
+        "type": "object",
+        "description": "Current sound/noise level.",
+        "required": [
+          "noise_level"
+        ],
+        "properties": {
+          "noise_level": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Current sound/noise level. Returns -1 on read failure.",
+            "example": 42
+          }
+        }
+      },
+      "PrivacyMaskConfig": {
+        "type": "object",
+        "description": "Privacy mask overlay configuration.",
+        "required": [
+          "privacyMasks"
+        ],
+        "properties": {
+          "privacyMasks": {
+            "type": "array",
+            "description": "Parsed privacy masks with vertices only.",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "vertices"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Privacy mask id."
+                },
+                "vertices": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "x",
+                      "y"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "y": {
+                        "type": "integer",
+                        "format": "int32"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "example": [
+              {
+                "id": 1,
+                "vertices": [
+                  {
+                    "x": 100,
+                    "y": 200
+                  },
+                  {
+                    "x": 300,
+                    "y": 400
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "PrivacyState": {
+        "type": "object",
+        "description": "Privacy State.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "privacyModeState": {
+            "type": "string",
+            "description": "State of the PrivacyModeStatemachine",
+            "enum": [
+              "ON",
+              "OFF",
+              "TURNING_ON",
+              "TURNING_OFF"
+            ],
+            "example": "TURNING_ON"
+          },
+          "timeout": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Timeout in seconds. Timeout parameter is optional and may not be included in body. Timeout will not be included in the response when privacy mode is enabled infinitely.",
+            "minimum": 1
+          }
+        }
+      },
+      "PrivacyMode": {
+        "type": "object",
+        "description": "Privacy Mode.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether the mode is enabled or not.",
+            "example": true
+          },
+          "timeout": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Timeout in seconds. Timeout parameter is optional and may not be included in body. Timeout will not be included in the response when privacy mode is enabled infinitely.",
+            "minimum": 1
+          }
+        }
+      },
+      "PrivacyModeJingleConfig": {
+        "type": "object",
+        "description": "Privacy Mode Jingle Config.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether the jingle is enabled or not.",
+            "example": true
+          }
+        }
+      },
+      "StreamingIndicatorConfig": {
+        "type": "object",
+        "description": "Configuration for streaming indicator feature.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether the status LED shall flash while streaming or not.",
+            "example": true
+          }
+        }
+      },
+      "AcousticAlarmState": {
+        "type": "object",
+        "description": "Acoustic alarm state.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether the alarm is enabled or not.",
+            "example": true
+          }
+        }
+      },
+      "VisualAlarmState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AcousticAlarmState"
+          },
+          {
+            "description": "Visual alarm state."
+          }
+        ]
+      },
+      "IntrusionSystemArming": {
+        "type": "object",
+        "description": "Intrusion system arming object.",
+        "required": [
+          "arm"
+        ],
+        "properties": {
+          "arm": {
+            "type": "boolean",
+            "description": "Whether the user intends to arm (true) or disarm (false) the intrusion system.",
+            "example": true
+          }
+        }
+      },
+      "IntrusionSystemConfiguration": {
+        "type": "object",
+        "description": "Intrusion system configuration.",
+        "required": [
+          "controlMode"
+        ],
+        "properties": {
+          "controlMode": {
+            "type": "string",
+            "description": "The control mode of the intrusion system.",
+            "enum": [
+              "INTERNAL",
+              "EXTERNAL"
+            ],
+            "example": "INTERNAL"
+          }
+        }
+      },
+      "IntrusionSystemPreAlarmConfiguration": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/IntrusionSystemConfiguration"
+          },
+          {
+            "description": "Intrusion system pre alarm configuration."
+          }
+        ]
+      },
+      "AlarmConfiguration": {
+        "type": "object",
+        "description": "Alarm configuration.",
+        "required": [
+          "enable",
+          "enablePreAlarm",
+          "alarmActivationDelay",
+          "alarmDelay",
+          "preAlarmDelay"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether the alarm feature shall be enabled or not. When `true`, the alarm feature will actually be enabled on the camera after `alarmActivationDelay`.",
+            "example": true
+          },
+          "alarmActivationDelay": {
+            "type": "integer",
+            "description": "The time in seconds it takes until the alarm feature is activated.",
+            "minimum": 0,
+            "default": 60
+          },
+          "enablePreAlarm": {
+            "type": "boolean",
+            "description": "Whether the pre alarm feature shall be enabled or not.",
+            "example": true
+          },
+          "preAlarmDelay": {
+            "type": "integer",
+            "description": "The time in seconds from the recognition of an alarm event until the pre alarm is actually executed. The pre alarm will only be executed when _enablePreAlarm_ is `true`",
+            "minimum": 0,
+            "default": 30
+          },
+          "alarmDelay": {
+            "type": "integer",
+            "description": "The time in seconds from the recognition of an alarm event until the alarm is actually executed.",
+            "minimum": 0,
+            "default": 60
+          }
+        }
+      },
+      "AlarmStatus": {
+        "type": "object",
+        "description": "Alarm status.",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "alarmType": {
+            "type": "string",
+            "description": "The type of the alarm that is active.",
+            "enum": [
+              "FIRE_ALARM",
+              "INTRUSION_ALARM",
+              "WATER_ALARM",
+              "MANUAL_ALARM",
+              "INTRUSION_PREALARM",
+              "NONE"
+            ],
+            "example": "INTRUSION_ALARM"
+          },
+          "intrusionSystem": {
+            "type": "string",
+            "description": "Whether the intrusion system is armed.",
+            "enum": [
+              "ARMED",
+              "ARMING",
+              "INACTIVE",
+              "SYSTEM_MANAGED"
+            ],
+            "example": "ARMED"
+          },
+          "privacyMode": {
+            "type": "boolean",
+            "description": "Whether the privacy mode is active."
+          }
+        }
+      },
+      "CreateVirtualAlarmZone": {
+        "type": "object",
+        "description": "Used to create virtual alarm zones. Does not contain an `id` field, because the id is determined by the camera when the zone is created.",
+        "required": [
+          "name",
+          "color",
+          "triggerType",
+          "useCase",
+          "maskType",
+          "points"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the zone.",
+            "example": "Entry door"
+          },
+          "color": {
+            "type": "string",
+            "description": "Color of the zone (hex representation).",
+            "pattern": "^#[a-fA-F0-9]{6}$",
+            "example": "#ff00ff"
+          },
+          "triggerType": {
+            "$ref": "#/components/schemas/VirtualAlarmTriggerType"
+          },
+          "useCase": {
+            "$ref": "#/components/schemas/VirtualAlarmUseCase"
+          },
+          "maskType": {
+            "$ref": "#/components/schemas/VirtualAlarmMaskType"
+          },
+          "points": {
+            "type": "array",
+            "description": "Points describing the outer edges of a zone.",
+            "minItems": 3,
+            "items": {
+              "$ref": "#/components/schemas/VirtualAlarmPoint"
+            }
+          }
+        }
+      },
+      "VirtualAlarmZone": {
+        "allOf": [
+          {
+            "description": "Virtual alarm zone representation.",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The id of the zone.",
+                "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$",
+                "example": "76567ff6-dd77-4a69-8958-213d5b7733a9"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CreateVirtualAlarmZone"
+          }
+        ]
+      },
+      "IntrusionDetectionConfig": {
+        "type": "object",
+        "description": "Intrusion detection configuration.",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether detection is enabled at all.",
+            "example": true
+          },
+          "sensitivity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The sensitivity of the virtual alarm recognition.",
+            "minimum": 0,
+            "maximum": 7,
+            "example": 5
+          },
+          "distance": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The distance up to which radar events will be received for the outdoor virtual alarm recognition.",
+            "minimum": 1,
+            "maximum": 10,
+            "example": 5
+          },
+          "detectionMode": {
+            "type": "string",
+            "description": "The detection mode. Influences how the underlying video analytics algorithm detects intrusions.",
+            "enum": [
+              "ALL_MOTIONS",
+              "ONLY_HUMANS",
+              "ZONES"
+            ]
+          }
+        }
+      },
+      "AudioDetectionConfig": {
+        "type": "object",
+        "description": "Audio detection configuration.",
+        "required": [
+          "detectGlassBreak",
+          "detectFireAlarm"
+        ],
+        "properties": {
+          "detectGlassBreak": {
+            "type": "boolean",
+            "description": "Whether glass break detection is enabled.",
+            "example": false
+          },
+          "detectFireAlarm": {
+            "type": "boolean",
+            "description": "Whether fire alarm detection is enabled.",
+            "example": false
+          }
+        }
+      },
+      "AudioRecordingConfig": {
+        "type": "object",
+        "description": "Configuration for audio recording feature.",
+        "required": [
+          "enable"
+        ],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether audio stream shall be recorded within a clip or not.",
+            "example": true
+          }
+        }
+      },
+      "WifiInformation": {
+        "type": "object",
+        "description": "WifiInformation.",
+        "required": [
+          "ssid",
+          "regionCode",
+          "linkQuality",
+          "ip",
+          "mac"
+        ],
+        "properties": {
+          "ssid": {
+            "type": "string",
+            "description": "SSID of the current network",
+            "example": "MY_SSID"
+          },
+          "regionCode": {
+            "type": "string",
+            "description": "Region code for wifi (regulatory rules for wifi behaviour).",
+            "enum": [
+              "US",
+              "CA",
+              "EU",
+              "JP",
+              "CN"
+            ],
+            "example": "EU",
+            "default": "EU"
+          },
+          "linkQuality": {
+            "type": "integer",
+            "description": "percentage value of the link quality.",
+            "minimum": 0,
+            "maximum": 100,
+            "example": 100
+          },
+          "ip": {
+            "type": "string",
+            "description": "Ip address of the camera.",
+            "example": "192.168.0.100"
+          }
+        }
+      },
+      "LocalUserName": {
+        "type": "object",
+        "description": "Local user name if a local user is configured. Returns 404 if no local user is configured.",
+        "required": [
+          "username"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The current local user name.",
+            "example": "localuser"
+          }
+        }
+      },
+      "VirtualAlarmTriggerType": {
+        "type": "string",
+        "description": "Determines for which type of event the zone shall care for.",
+        "enum": [
+          "MOTION",
+          "PERSON",
+          "AUDIO",
+          "FIRE_ALARM"
+        ],
+        "example": "MOTION"
+      },
+      "VirtualAlarmMaskType": {
+        "type": "string",
+        "description": "Determines the meaning of the specified zone to the underlying algorithm.",
+        "enum": [
+          "BOUNDING_BOX",
+          "FOOT_POINT",
+          "OBJECT_CENTER"
+        ],
+        "example": "BOUNDING_BOX"
+      },
+      "VirtualAlarmUseCase": {
+        "type": "string",
+        "description": "Determines what shall happen when an event is detected in the zone.",
+        "enum": [
+          "LIGHT",
+          "RECORDING"
+        ],
+        "example": "RECORDING"
+      },
+      "VirtualAlarmPoint": {
+        "type": "object",
+        "description": "A point in two-dimensional space for virtual alarms (e.g. zone or line).",
+        "required": [
+          "x",
+          "y"
+        ],
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "float",
+            "description": "Normalized x-coordinate of the zone's point.",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "example": 0.3
+          },
+          "y": {
+            "type": "number",
+            "format": "float",
+            "description": "Normalized y-coordinate of the zone's point.",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "example": 0.6
+          }
+        }
+      },
+      "ClipRecordingLengthValue": {
+        "type": "integer",
+        "description": "Possible clip length value.",
+        "enum": [
+          15,
+          30,
+          45,
+          60
+        ]
+      },
+      "ClipRecordingLength": {
+        "type": "object",
+        "description": "Configuration for the clip recording length.",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "$ref": "#/components/schemas/ClipRecordingLengthValue"
+          }
+        }
+      },
+      "IconLedBrightnessConfig": {
+        "type": "object",
+        "description": "Configuration for the icon led brightness.",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "int",
+            "description": "Icon LED brightness value",
+            "minimum": 0,
+            "maximum": 100,
+            "example": 50
+          }
+        }
+      },
+      "LightColor": {
+        "type": "object",
+        "properties": {
+          "r": {
+            "type": "integer",
+            "default": 0,
+            "description": "Red component of the light color."
+          },
+          "g": {
+            "type": "integer",
+            "default": 0,
+            "description": "Green component of the light color."
+          },
+          "b": {
+            "type": "integer",
+            "default": 0,
+            "description": "Blue component of the light color."
+          }
+        }
+      },
+      "LightConfig": {
+        "type": "object",
+        "properties": {
+          "brightness": {
+            "type": "integer",
+            "default": 100,
+            "description": "Configuration for brightness of the light."
+          },
+          "color": {
+            "$ref": "#/components/schemas/LightColor",
+            "description": "Configuration for color of the light."
+          },
+          "whiteBalance": {
+            "type": "number",
+            "format": "float",
+            "default": 0.0,
+            "minimum": -1.0,
+            "maximum": 1.0,
+            "description": "Configuration of the white balance of the light, ranging from -1 (cold white) to 1 (warm white)."
+          }
+        }
+      },
+      "ZoneMap": {
+        "type": "array",
+        "description": "A map of the active radar zones. Each element represents a ring.",
+        "default": [
+          [
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {
+          "type": "array",
+          "description": "Each element represents a slice of a ring. 0=Zone deactivated, 1=Zone activated. The first element represents the inner ring, the last represents the outermost ring. First element of an array represent the zone to the left, last element the zone to the right.",
+          "minItems": 1,
+          "maxItems": 28,
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "ManualLightConfig": {
+        "type": "object",
+        "description": "Configuration for the manual light feature.",
+        "required": [],
+        "properties": {
+          "top": {
+            "description": "Configuration for camera's top light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "bottom": {
+            "type": "boolean",
+            "description": "Configuration for camera's bottom light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "front": {
+            "type": "boolean",
+            "description": "Configuration for camera's front light.",
+            "$ref": "#/components/schemas/LightConfig"
+          }
+        }
+      },
+      "MotionLightConfig": {
+        "type": "object",
+        "description": "Configuration for the motion light feature.",
+        "required": [],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether motion light feature is enabled."
+          },
+          "uptime": {
+            "type": "integer",
+            "description": "Number of seconds the light stays on after activation.",
+            "minimum": 1,
+            "maximum": 300
+          },
+          "top": {
+            "description": "Configuration for camera's top light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "bottom": {
+            "description": "Configuration for camera's bottom light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "front": {
+            "description": "Configuration for camera's front light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "zone_map": {
+            "description": "Configuration for camera's motion light active zones.",
+            "$ref": "#/components/schemas/ZoneMap"
+          },
+          "sensitivity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The sensitivity of the motion light.",
+            "minimum": 0,
+            "maximum": 7,
+            "example": 5
+          }
+        }
+      },
+      "GeneralLightingConfig": {
+        "type": "object",
+        "description": "General configuration for lighting feature.",
+        "required": [
+          "environmentalBrightnessThreshold",
+          "fadingEnabled"
+        ],
+        "properties": {
+          "environmentalBrightnessThreshold": {
+            "type": "number",
+            "format": "float",
+            "description": "Determines at which light level motion light will trigger. Also used for ambient light when trigger is 'ENVIRONMENT'.",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.76
+          },
+          "fadingEnabled": {
+            "type": "boolean",
+            "description": "Whether fading is enabled on light mode switches."
+          }
+        }
+      },
+      "AmbientLightConfig": {
+        "type": "object",
+        "description": "Configuration for the ambient light feature.",
+        "required": [],
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "description": "Whether ambient light feature is enabled."
+          },
+          "trigger": {
+            "type": "string",
+            "description": "The trigger type for ambient light",
+            "enum": [
+              "ENVIRONMENT",
+              "ENVIRONMENT_WITH_OFFTIME",
+              "TIME"
+            ],
+            "example": "TIME"
+          },
+          "top": {
+            "description": "Configuration for camera's top light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "bottom": {
+            "description": "Configuration for camera's bottom light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "front": {
+            "description": "Configuration for camera's front light.",
+            "$ref": "#/components/schemas/LightConfig"
+          },
+          "onTime": {
+            "type": "string",
+            "description": "String formatted time to trigger ambient light ON",
+            "example": "2021-03-20T14:54:15Z"
+          },
+          "offTime": {
+            "type": "string",
+            "description": "String formatted time to trigger ambient light OFF",
+            "example": "2021-03-20T14:54:15Z"
+          }
+        }
+      }
+    },
+    "responses": {
+      "DeactivatedWhenNotCommissioned": {
+        "description": "This endpoint will only be available, when the camera has been successfully commissioned."
+      },
+      "InternalError": {
+        "description": "An internal error occurred while invoking the operation."
+      }
+    }
+  }
+}

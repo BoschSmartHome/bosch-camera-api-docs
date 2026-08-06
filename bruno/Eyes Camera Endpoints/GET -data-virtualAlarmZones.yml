@@ -1,0 +1,15 @@
+info:
+  name: GET /data/virtualAlarmZones
+  type: http
+  seq: 14
+
+http:
+  method: GET
+  url: https://{{camera_host}}/sh/data/virtualAlarmZones
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
