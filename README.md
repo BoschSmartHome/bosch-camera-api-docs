@@ -18,7 +18,7 @@
 [Bosch Smart Home](https://www.bosch-smarthome.com/) products allow you to automatically and remotely control the processes in your home. The **Eyes Camera** is a Bosch Smart Home security camera that provides local REST API access for private, non-profit developers.
 
 With this documentation you can make your Bosch Eyes Camera interoperable. The [OpenAPI Documentation](https://camera.local.apidocs.bosch-smarthome.com/) documents all customer-facing endpoints of the camera's local API. Use the [Bruno Collection](bruno/) to explore and test the endpoints directly against your camera.
-For authentication a local user is necessary. See Section [User creation](#user_creation) on how to do it.
+For authentication a local user is necessary. See Section [User creation](user_creation/) on how to do it.
 
 For live video stream access, see the dedicated [Video Streaming](streaming/) guide.
 
@@ -55,10 +55,6 @@ Developer grants to Bosch Smart Home a non-exclusive, worldwide, royalty-free li
 The licenses of these Terms and Conditions are explicitly conditioned on Developers adherence to the following restrictions and compliance with its responsibilities as set forth herein.
 
 The use of the API only applies to private, non-profit individuals. A commercial use in any way, either direct or indirect, is prohibited.
-
-Using the API requires identification against the Eyes Camera with an individual Client ID and Client Name that starts with "oss_" followed by the name of the open source project, or the name of the developer.
-
-The Client must register with the primary role "ROLE_RESTRICTED_CLIENT".
 
 Developer will be solely responsible for the technical installation and operation of its Applications; creating and displaying information and content on, through or within its Applications; ensuring that its Applications do not violate or infringe the Intellectual Property Rights of any third party; ensuring that Applications are not offensive, profane, obscene, libelous or otherwise illegal; ensuring that its Applications do not contain or introduce Malicious Software into a Service, an API, any Service Data or other data stored or transmitted using the Service; and ensuring that its Applications are not designed to or utilized for the purpose of spamming any Bosch Smart Home subscribers, Agents or End-Users.
 
@@ -124,7 +120,7 @@ This Agreement does not entitle Developer to any support for the Services or the
 
 Developer acknowledges and agrees that Bosch Smart Home has no obligation to provide support or technical assistance to the users of Applications.
 
-However, Bosch Smart Home will try their best to respond to issues raised in the [GitHub tracker](https://github.com/BoschSmartHome/bosch-shc-api-docs/issues). Developer should report any trouble he might have with the Documentation exclusively there.
+However, Bosch Smart Home will try their best to respond to issues raised in the [GitHub tracker](https://github.com/BoschSmartHome/bosch-camera-api-docs/issues). Developer should report any trouble he might have with the Documentation exclusively there.
 
 ### Confidentiality
 Developer may from time to time, gain access to Confidential Information. Developer may use Confidential Information only to the extent necessary to exercise its rights under this Terms and Conditions. Subject to the express permissions set forth herein, Developer may not disclose Confidential Information to a third party without the prior express consent of Bosch Smart Home, provided in writing or by email. Without limiting any other obligation of Developer under this Terms and Conditions, Developer agrees that he will protect Confidential Information from unauthorized use, access, or disclosure in the same manner that Developer would use to protect its own confidential and proprietary information of a similar nature and in any event with no less than a reasonable degree of care.
@@ -136,4 +132,4 @@ These Terms and Conditions as well as all agreements between Bosch Smart Home an
 
 Should a provision be or become invalid, this shall not affect the validity or effectiveness of the other provisions. In such a case, the invalid provision should be replaced by a valid agreement that is as similar as possible to the commercial intention of the original, invalid provision.
 
-*November 26th, 2019*
+*August 26th, 2026*

@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "title": "Bosch Smart Home 2nd gen Camera API",
     "description": "This description focuses on the JSON-based, REST-like API for the Eyes Cameras.\n                \nBy using this documentation, the developer accepts and agrees to be bound by our [Terms and Conditions](https://github.com/BoschSmartHome/bosch-camera-api-docs#terms-and-conditions).\n    \nThis documentation is subject to the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).\n    \nPlease report any issues you encounter with this documentation in our [GitHub tracker](https://github.com/BoschSmartHome/bosch-camera-api-docs/issues).\n  ",
-  "contact": {
+    "contact": {
       "name": "Bosch Smart Home Lollar",
       "email": "HOME-Team-Lollar@bosch.com",
       "url": "https://www.bosch-smarthome.com/"
@@ -20,6 +20,11 @@
           "description": "The IP Address of your camera in your network"
         }
       }
+    }
+  ],
+  "security": [
+    {
+      "basicAuth": []
     }
   ],
   "tags": [
@@ -727,16 +732,16 @@
               "application/json": {
                 "schema": {
                   "description": "The current normalized lighting level of the camera.",
-                    "properties": {
-                      "level": {
-                          "type": "number",
-                          "format": "float",
-                          "description": "Normalized lighting level.",
-                          "minimum": 0.0,
-                          "maximum": 1.0,
-                          "example": 0.3
-                      }
+                  "properties": {
+                    "level": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Normalized lighting level.",
+                      "minimum": 0.0,
+                      "maximum": 1.0,
+                      "example": 0.3
                     }
+                  }
                 }
               }
             }
@@ -1028,6 +1033,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "HTTP Basic authentication."
+      }
+    },
     "schemas": {
       "SystemPairingInformation": {
         "type": "object",
@@ -1161,7 +1173,7 @@
         "type": "object",
         "description": "Privacy State.",
         "required": [
-          "enable"
+          "privacyModeState"
         ],
         "properties": {
           "privacyModeState": {
@@ -1342,7 +1354,9 @@
         "type": "object",
         "description": "Alarm status.",
         "required": [
-          "status"
+          "alarmType",
+          "intrusionSystem",
+          "privacyMode"
         ],
         "properties": {
           "alarmType": {
@@ -1551,6 +1565,11 @@
             "type": "string",
             "description": "Ip address of the camera.",
             "example": "192.168.0.100"
+          },
+          "mac": {
+            "type": "string",
+            "description": "Mac address of the camera.",
+            "example": "00:1A:2B:3C:4D:5E"
           }
         }
       },
@@ -1749,12 +1768,10 @@
             "$ref": "#/components/schemas/LightConfig"
           },
           "bottom": {
-            "type": "boolean",
             "description": "Configuration for camera's bottom light.",
             "$ref": "#/components/schemas/LightConfig"
           },
           "front": {
-            "type": "boolean",
             "description": "Configuration for camera's front light.",
             "$ref": "#/components/schemas/LightConfig"
           }
