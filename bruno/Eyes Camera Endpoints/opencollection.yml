@@ -1,0 +1,22 @@
+opencollection: 1.0.0
+
+info:
+  name: GEN2 Camera EU Data Act Endpoints
+request:
+  auth:
+    type: basic
+    username: "{{username}}"
+    password: "{{password}}"
+  variables:
+    - name: camera_host
+      value: 192.168.0.100
+    - name: username
+      value: localuser
+    - name: password
+      value: YOUR_PASSWORD
+
+docs:
+  content: EU Data Act mapped REST API endpoints for GEN2 Camera with Basic Auth configuration.
+  type: text/markdown
+bundled: false
+extensions: {}

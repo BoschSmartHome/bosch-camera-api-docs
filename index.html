@@ -1,0 +1,82 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Bosch Eyes Camera Local API</title>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4/swagger-ui.css"/>
+        <link rel="stylesheet" type="text/css" href="css/override.css">
+        <link rel="stylesheet" type="text/css" href="css/swagger-custom.css">
+        <link rel="icon" type="image/png" href="images/bosch_icon.png" sizes="32x32"/>
+        <link rel="icon" type="image/png" href="images/bosch_icon.png" sizes="16x16"/>
+        <style>
+            html {
+              box-sizing: border-box;
+              overflow: -moz-scrollbars-vertical;
+              overflow-y: scroll;
+            }
+
+            *,
+            *:before,
+            *:after {
+              box-sizing: inherit;
+            }
+
+            body {
+              margin: 0;
+              background: #fafafa;
+            }
+        </style>
+    </head>
+
+    <body class="apidocs" onload="loadApi()">
+        <div class="swagger-ui">
+            <section data-reactroot="" class="swagger-ui swagger-container">
+                <div class="topbar">
+                    <div class="wrapper">
+                        <div class="topbar-wrapper">
+                            <div class="topbar-logo-wrapper">
+                                <div class="topbar-logo">
+                                    <a href="https://www.bosch-smarthome.com/" target="_blank">
+                                        <img src="images/bosch_smart_home_logo.png">
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="navbar-brand" href="index.html">
+                                        OpenAPI Documentation
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div id="swagger-ui"></div>
+        </div>
+
+        <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-bundle.js" crossorigin></script>
+        <script src="https://unpkg.com/swagger-ui-dist@4/swagger-ui-standalone-preset.js" crossorigin></script>
+        <script defer>
+
+            function loadApi() {
+              const ui = SwaggerUIBundle({
+                url: "openapi/Eyes-Camera-local-openapi.json",
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                  SwaggerUIBundle.presets.apis,
+                  SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                  SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "BaseLayout"
+              })
+              window.ui = ui
+            };
+
+        </script>
+    </body>
+
+</html>
