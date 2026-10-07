@@ -3,12 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Bosch Smart Home 2nd gen Camera API",
-    "description": "This description focuses on the JSON-based, REST-like API for the Eyes Cameras.\n                \nBy using this documentation, the developer accepts and agrees to be bound by our [Terms and Conditions](https://github.com/BoschSmartHome/bosch-camera-api-docs#terms-and-conditions).\n    \nThis documentation is subject to the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).\n    \nPlease report any issues you encounter with this documentation in our [GitHub tracker](https://github.com/BoschSmartHome/bosch-camera-api-docs/issues).\n  ",
-    "contact": {
-      "name": "Bosch Smart Home Lollar",
-      "email": "HOME-Team-Lollar@bosch.com",
-      "url": "https://www.bosch-smarthome.com/"
-    }
+    "description": "This description focuses on the JSON-based, REST-like API for the Eyes Cameras.\n                \nBy using this documentation, the developer accepts and agrees to be bound by our [Terms and Conditions](https://github.com/BoschSmartHome/bosch-camera-api-docs#terms-and-conditions).\n    \nThis documentation is subject to the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).\n    \nPlease report any issues you encounter with this documentation in our [GitHub tracker](https://github.com/BoschSmartHome/bosch-camera-api-docs/issues).\n  "
   },
   "servers": [
     {
